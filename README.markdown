@@ -66,21 +66,31 @@ Nodes and edges are colored. Edges also have different thicknesses. The explanat
 
 'Node Colors:'
 Red     -       Cast and Crew
+
 Blue    -       Male
+
 Pink    -       Female
+
 Grey    -       Gender not Available
 
 'Edge Colors'
 
 Red     -       Friendship between two Cast and Crew
+
 Blue    -       Friendship between two Males
+
 Pink    -       Friendship between two Females
+
 Grey    -       Friendship between two users of unspecified gender
+
 Purple  -       Friendship between user and staff
+
 Green   -       Friendship between users of different genders
 
 'Edge Weights'
 
 Heavy   -       Friendship between two staff
+
 Medium  -       Friendship between staff and user
+
 Light   -       Friendship between two users
