@@ -1,0 +1,41 @@
+Pic1:
+	Node Size: Based on Karma
+	Filter:	At least 700 friends
+	C&C: No special treatment
+	Node Color:
+		Red             -   Staff
+		Blue            -   Male
+		Pink            -   Female
+		Grey            -   N/A
+
+	Edge Size:
+		Staff/Staff     -	Large
+		Staff/User	    -	Medium
+		User/User	    -	Small
+    
+    Edge Color:
+        Staff/Staff     -   Red
+        Male/Male       -   Blue
+        Female/Female   -   Pink
+        Staff/User      -   Purple
+        Male/Female     -   Green
+
+Pic2:
+	Node Size: Based on Karma
+	Filter: Signed up before 2010
+	C&C: No special Treatment
+
+Pic3:
+	Node Size: Based on Karma
+	Filter: At least 500 friends
+	C&C: No special Treatment
+
+Pic4:
+	Node Size: Based on Date
+	Filter: Cast and Crew Only
+	C&C: Guarenteed Present
+
+Pic5:
+	Node Size: Based on Date
+	Filter: Karma at least 50
+	C&C: No special treatment
