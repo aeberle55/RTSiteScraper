@@ -7,7 +7,7 @@ import math
 import urllib2
 import sys
 
-NODE_SIZE = "date"       #Factor to decide node size; Options are 'friends', 'date', and 'none'
+NODE_SIZE = "date"       #Factor to decide node size; Options are 'friends', 'date', 'karma' and 'none'
 FILTER_BY = "friends"          #Factor to decide what users to filter; Options are 'friends', 'date', 'karma', 'none'
 MIN_YEAR = 0                #Earliest year a user can sign up by before being filtered by date, inclusive
 MAX_YEAR = 10               #Latest year a user can sign up by before being filtered by date, inclusive

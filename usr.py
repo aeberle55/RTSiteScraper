@@ -3,15 +3,15 @@ class user:
 	Class designed to store data concerning users of the Roosterteeth site
 	"""
 	
-	def __init__(self, username, uid, gender, numFriends, karma, signedUp, friends=None):
+	def __init__(self, username, uid, gender, numFriends, karma, signedUp, R_FRIENDS=None):
 		"""
 		@param username: Name of the user
 		@param uid: User ID of the user
 		@param gender: Gender of the user; expect male, female, or Not Specified
-		@param numFriends: Number of friends the user has
+		@param numFriends: Number of R_FRIENDS the user has
 		@param karma: Karma level of the user
 		@param signedUp: Signup date of the user
-		@param friends: List of user's friends in string form
+		@param R_FRIENDS: List of user's R_FRIENDS in string form
 		@note: All parameters are in string form
 		"""
 		self.username = username
@@ -20,8 +20,8 @@ class user:
 		self.numFriends = numFriends
 		self.karma = karma
 		self.signedUp = signedUp
-		if friends != None:
-			self.friends = set(friends)
+		if R_FRIENDS != None:
+			self.friends = set(R_FRIENDS)
 		else:
 			self.friends = set()
 
@@ -48,7 +48,7 @@ class user:
 
 	def addFriend(self, f):
 		"""
-		Adds a friend to the the urer's friends list
+		Adds a friend to the the urer's R_FRIENDS list
 		@param f: String containing the friend's name
 		"""
 		self.friends.append(f)
@@ -77,21 +77,21 @@ class user:
 	def getNumFriends(self):
 		"""
 		Accessor for numFriends
-		@return: Number of friends in string form
+		@return: Number of R_FRIENDS in string form
 		"""
 		return self.numFriends
 
 	def getFriendsList(self):
 		"""
-		Accessor method for friends list
-		@return: A list of strings containing the usernames of all friends
+		Accessor method for R_FRIENDS list
+		@return: A list of strings containing the usernames of all R_FRIENDS
 		"""
 		return self.friends
 	
 	def getSignUp(self):
 		"""
 		Accessor method for sign up date
-		@return: Date of sign up in dd/mm/yy string form
+		 @return: Date of sign up in dd/mm/yy string form
 		"""
 		return self.signedUp
 	
