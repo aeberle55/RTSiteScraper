@@ -19,7 +19,7 @@ debug = True																					#Enables printing for debug
 THRESHOLD = 500																					#Minimum number of friends to be a node
 MAX_PROCESS = 100000																			#Maximum Number of users to process			
 numError = 0																					#Number of errors detected from network
-processed = set(["Matty", "boosher", "yellowhat", "venom763", "redknight8", "rebmon", "saga"])	#Users that have already been processed by the main loop
+processed = set(["Ray"])																		#Users that have already been processed by the main loop
 userList = []																					#List of user objects to be pickled
 numProcessed = 0																				#Total number of users processed by the program
 
@@ -103,39 +103,42 @@ def getStats(info):
 	if regex:
 		signup = regex.group(1)
 	return (uid, num, gen, karma, signup)	
-
-while len(queue) > 0:
-	tempName = queue.popleft()
-	try:
-		logToFile(time.strftime("%H:%M:%S") + ": Ripping " + tempName)
-		page = ripPage(url+tempName)
-		(uid, numFriends, gender, karma, signup) = getStats(page)
-		if int(numFriends) > THRESHOLD: #and not tempName in castAndCrew:
-			logToFile(time.strftime("%H:%M:%S") + ": " + tempName + " has " + numFriends + " friends, so is being added to the file")
-			fList = getFriends(uid, int(numFriends))
-			logToFile(time.strftime("%H:%M:%S") + ": " + tempName + "'s friends added to the file")
-			u = usr.user(tempName, uid, gender, numFriends, karma, signup, friends=fList[:])
-			userList.append(u)
-		numProcessed += 1
-		numError = 0
-		if numProcessed % 10 == 0:
-			logToFile(time.strftime("%H:%M:%S") + ": " + str(numProcessed) + " users processed")
-		if numProcessed >= 100000:
-			break;
-	except urllib2.URLError as e:
-		logToFile(time.strftime("%H:%M:%S") + ": Error")
-		if numError < 5:
-			logToFile(time.strftime("%H:%M:%S") + ": Skipping " + tempName)
-			queue.appendleft(tempName)	#Add the aborted name back to thge queue
-		numError+=1
-		if numError > 60:
-			logToFile(time.strftime("%H:%M:%S") + "Internet Failure. Aborting.")
-			break;
-		logToFile(time.strftime("%H:%M:%S") + ": " + str(5-numError)+" Attempts remaining\n")
-		time.sleep(10)		
-pickle.dump(userList, open(pklFile, "wb"))
-logToFile(time.strftime("%H:%M:%S") + ": Data Collection Complete. Unprocessed Users: " + str(len(queue)))
-logToFile(time.strftime("%H:%M:%S") + ": Printing user list:")
-for u in userList:
-	logToFile(u.printData())
-f.close()
+"""
+Main Function
+"""
+if __name__ == '__main__':
+	while len(queue) > 0:
+		tempName = queue.popleft()
+		try:
+			logToFile(time.strftime("%H:%M:%S") + ": Ripping " + tempName)
+			page = ripPage(url+tempName)
+			(uid, numFriends, gender, karma, signup) = getStats(page)
+			if int(numFriends) > THRESHOLD: #and not tempName in castAndCrew:
+				logToFile(time.strftime("%H:%M:%S") + ": " + tempName + " has " + numFriends + " friends, so is being added to the file")
+				fList = getFriends(uid, int(numFriends))
+				logToFile(time.strftime("%H:%M:%S") + ": " + tempName + "'s friends added to the file")
+				u = usr.user(tempName, uid, gender, numFriends, karma, signup, friends=fList[:])
+				userList.append(u)
+			numProcessed += 1
+			numError = 0
+			if numProcessed % 10 == 0:
+				logToFile(time.strftime("%H:%M:%S") + ": " + str(numProcessed) + " users processed")
+			if numProcessed >= 100000:
+				break;
+		except urllib2.URLError as e:
+			logToFile(time.strftime("%H:%M:%S") + ": Error")
+			if numError < 5:
+				logToFile(time.strftime("%H:%M:%S") + ": Skipping " + tempName)
+				queue.appendleft(tempName)	#Add the aborted name back to thge queue
+			numError+=1
+			if numError > 60:
+				logToFile(time.strftime("%H:%M:%S") + "Internet Failure. Aborting.")
+				break;
+			logToFile(time.strftime("%H:%M:%S") + ": " + str(5-numError)+" Attempts remaining\n")
+			time.sleep(10)		
+	pickle.dump(userList, open(pklFile, "wb"))
+	logToFile(time.strftime("%H:%M:%S") + ": Data Collection Complete. Unprocessed Users: " + str(len(queue)))
+	logToFile(time.strftime("%H:%M:%S") + ": Printing user list:")
+	for u in userList:
+		logToFile(u.printData())
+	f.close()

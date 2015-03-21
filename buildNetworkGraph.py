@@ -188,6 +188,9 @@ def filterUser(u):
         return MIN_KARMA<=k<=MAX_KARMA
     return False
 
+"""
+Main Function
+"""
 if __name__ == '__main__':
     try:
         uList = set(pickle.load(open(PKL_FILE, "rb")))

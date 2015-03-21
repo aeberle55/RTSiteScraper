@@ -23,18 +23,27 @@ class user:
 		if friends != None:
 			self.friends = set(friends)
 		else:
-			self.friends = set()	#Create set
+			self.friends = set()
 
 	def __eq__(self, other):
+		"""
+		Overloaded equivilance to test for UID being the same
+		"""
 		if isinstance(other, self.__class__):
 			return other.uid == self.uid
 		else:
 			return False
 
 	def __ne__(self, other):
+		"""
+		Overloaded not equivilance
+		"""
 		return not self.__eq__(other)
 	
 	def __hash__(self):
+		"""
+		Overloaded hash function to take into account equivilance based on UID
+		"""
 		return hash(self.uid)
 
 	def addFriend(self, f):
@@ -66,20 +75,41 @@ class user:
 		return self.uid
 
 	def getNumFriends(self):
+		"""
+		Accessor for numFriends
+		@return: Number of friends in string form
+		"""
 		return self.numFriends
 
 	def getFriendsList(self):
+		"""
+		Accessor method for friends list
+		@return: A list of strings containing the usernames of all friends
+		"""
 		return self.friends
 	
 	def getSignUp(self):
+		"""
+		Accessor method for sign up date
+		@return: Date of sign up in dd/mm/yy string form
+		"""
 		return self.signedUp
 	
 	def getYear(self):
+		"""
+		Returns the year the user signed up, or 2015 if not available
+		@return: Last two digits of sign up year in integer form
+		@note: This will break in 85 years or so. Patch by then.
+		"""
 		if self.signedUp == None:
 			return 15
 		return int(self.signedUp[-2:])
 	
 	def getKarma(self):
+		"""
+		Accessor method for karma level
+		@return: Karma level in integer format
+		"""
 		return int(self.karma)
 	
 	def printData(self, printAll = False):

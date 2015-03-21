@@ -19,6 +19,9 @@ def getCCFromNet():
     for name in namesT:
         names.append(name.lower())
     return names
+"""
+Main Function
+"""
 if __name__ == '__main__':
     try:
         lst = getCCFromNet();
