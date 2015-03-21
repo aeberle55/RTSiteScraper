@@ -219,6 +219,6 @@ if __name__ == '__main__':
             if other in flist:
                 G.add_edge(other, key, color=getEdgeColor(other, key, G), weight=getWeight(other,key, CCList), arrow=True)
     
-    #drawGraph(G) 
+    drawGraph(G) 
     if GET_HIST:
         buildHistogram(G, skipped=1)
