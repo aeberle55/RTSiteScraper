@@ -7,22 +7,22 @@ import math
 import urllib2
 import sys
 
-NODE_SIZE = "date"       #Factor to decide node size; Options are 'friends', 'date', 'karma' and 'none'
-FILTER_BY = "friends"          #Factor to decide what users to filter; Options are 'friends', 'date', 'karma', 'none'
+NODE_SIZE = "friends"       #Factor to decide node size; Options are 'friends', 'date', 'karma' and 'none'
+FILTER_BY = "friends"       #Factor to decide what users to filter; Options are 'friends', 'date', 'karma', 'all', 'none'
 MIN_YEAR = 0                #Earliest year a user can sign up by before being filtered by date, inclusive
-MAX_YEAR = 10               #Latest year a user can sign up by before being filtered by date, inclusive
-MIN_FRIENDS = 700           #Minimum number of friends a user can have when being filtered by friends, inclusive
-MAX_FRIENDS = None           #Maximum number of friends a user can have when being filtered by friends, inclusive
-MIN_KARMA = 50               #Minimum karma when filtering by karma, inclusive
+MAX_YEAR = 16               #Latest year a user can sign up by before being filtered by date, inclusive
+MIN_FRIENDS = 500           #Minimum number of friends a user can have when being filtered by friends, inclusive
+MAX_FRIENDS = None          #Maximum number of friends a user can have when being filtered by friends, inclusive
+MIN_KARMA = 45              #Minimum karma when filtering by karma, inclusive
 MAX_KARMA = 99              #Maximum karma when filtering by karma, inclusive
 FONT_SIZE = 14              #Font size of username
 K_VAL = None                #Spring constant for spring formatting of positions
-NUM_ITERATIONS = 100         #Number of iterations run by the position generator
+NUM_ITERATIONS = 100        #Number of iterations run by the position generator
 PKL_FILE = "uList.p"        #Location of user data in pickle file
 CC_LIST = "CCList.p"        #List of all cast and crew, in cpickle format
 IMG_FILE = "temp.png"       #Location to store image
 HIST_FILE = "histTemp.png"  #Location of histogram image
-FIG_SIZE = 90              #Height and width of image in hundreds of pixels
+FIG_SIZE = 220              #Height and width of image in hundreds of pixels
 INCLUDE_CC = 1              #Status of Cast and Crew; 0->Exclude, 1->Treat as User, 2->Never Filter
 GET_HIST = True             #Generate a Histogram of node degrees
 LOG_LOG = False             #Make the histogram a Lgo-Log scale
@@ -99,7 +99,8 @@ def getNodeSize(user):
     if NODE_SIZE == "date":
         if user.getSignUp() == None:
             return 1000
-        year = 16-user.getYear()
+        #Have to use 17. If was 15, users signing up in 2015 would cause log10 to error. If 16, they'd have node size of 0
+        year = 17-user.getYear()
         return 10000*math.log10(year)
     if NODE_SIZE == "friends":
         num = int(u.getNumFriends())
@@ -127,6 +128,10 @@ def buildHistogram(G, skipped=1):
     plt.savefig(HIST_FILE)
 
 def drawGraph(G):
+    """
+    Draws a graph from a given Graph object
+    @param G: the Graph object to draw
+    """
     plt.figure(figsize=(FIG_SIZE,FIG_SIZE))
     edges,colors = zip(*nx.get_edge_attributes(G, 'color').items())
     edges,weights = zip(*nx.get_edge_attributes(G,'weight').items())
@@ -171,6 +176,7 @@ def filterUser(u):
             If "friends", filtered by number of friends;
             If "date", filtered by sign up year
             If "karma", filtered by karma level
+            If "all", the filter will use all metrics
     """
     if u.getName().lower() in CCList:
         if INCLUDE_CC is 0:     #Exclude Cast and Crew
@@ -186,6 +192,11 @@ def filterUser(u):
     if FILTER_BY == "karma":
         k = u.getKarma()
         return MIN_KARMA<=k<=MAX_KARMA
+    if FILTER_BY == "all":
+        ret = MIN_FRIENDS <= int(u.numFriends) and MAX_FRIENDS is None or (MIN_FRIENDS<=int(u.numFriends)<=MAX_FRIENDS)
+        ret = ret and (MIN_YEAR<=u.getYear()<=MAX_YEAR)
+        ret = ret and (MIN_KARMA<=u.getKarma()<=MAX_KARMA)
+        return ret
     return False
 
 """
@@ -203,7 +214,7 @@ if __name__ == '__main__':
     G.colors = {}
     CCList = getCC()
     
-    
+    #Filter list and add relevant users to the graph
     for u in uList:
         if filterUser(u):
             n = u.getName()
@@ -211,14 +222,15 @@ if __name__ == '__main__':
             usersToMap[n] = u
             G.add_node(n)
             G.colors[n] = getNodeColor(u, CCList)
-    del u
+    del u, n
+    #Add edges to graph
     keys = usersToMap.keys()
     for key in keys:
         flist = usersToMap[key].getFriendsList()
         for other in keys:
             if other in flist:
                 G.add_edge(other, key, color=getEdgeColor(other, key, G), weight=getWeight(other,key, CCList), arrow=True)
-    
+    del flist, key, keys, other
     drawGraph(G) 
     if GET_HIST:
         buildHistogram(G, skipped=1)

@@ -2,23 +2,6 @@ Pic1:
 	Node Size: Based on Karma
 	Filter:	At least 700 friends
 	C&C: No special treatment
-	Node Color:
-		Red             -   Staff
-		Blue            -   Male
-		Pink            -   Female
-		Grey            -   N/A
-
-	Edge Size:
-		Staff/Staff     -	Large
-		Staff/User	    -	Medium
-		User/User	    -	Small
-    
-    Edge Color:
-        Staff/Staff     -   Red
-        Male/Male       -   Blue
-        Female/Female   -   Pink
-        Staff/User      -   Purple
-        Male/Female     -   Green
 
 Pic2:
 	Node Size: Based on Karma
@@ -38,4 +21,14 @@ Pic4:
 Pic5:
 	Node Size: Based on Date
 	Filter: Karma at least 50
+	C&C: No special treatment
+
+Pic 6:
+	Node Size: Based on Karma
+	Filter: Karma at least 50, Signed up before 2010, and more than 700 friends
+	C&C: No special treatment
+
+Pic 7:
+	Node Size: Based on Friends
+	Filter: Signed up in 2004
 	C&C: No special treatment
