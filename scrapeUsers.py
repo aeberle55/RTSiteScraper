@@ -10,9 +10,9 @@ url = "http://roosterteeth.com/"																#Site to rip from
 PKL_FILE = "uList.p"																			#File to store data to
 LOG_FILE = "log.txt"																			#Log file to store data
 queue = deque(["Ray"])																			#Queue containing initial seed user(s)
-R_GENDER = ("<R_GENDER property=\"profile:gender\" content=\"(.+)\"")							#Regex for gender
+R_GENDER = ("<meta property=\"profile:gender\" content=\"(.+)\"")							#Regex for gender
 R_FRIENDS = ("(\d+) Friend[s]*</a>")															#Regex for number of R_FRIENDS
-R_UID = ("href=\'/members/R_FRIENDS\.php\?uid=(\d+)\'")											#Regex for UID
+R_UID = ("href=\'/members/friends\.php\?uid=(\d+)\'")											#Regex for UID
 R_KARMA = ("<div id=\'karmaProgressBarBar\' class=\'progressBarBar\' style=.+>\+(\d+)</div>")	#Regex for karma level
 R_SIGNUP = ("<span class=\'updateWhen\' data-on=.+</span> \((.+)\)")							#Regex fopr signup date
 THRESHOLD = 500																					#Minimum number of R_FRIENDS to be a node
@@ -61,7 +61,7 @@ def getFriends(userID, num):
 	numpages = int(math.ceil(num/48)) 
 	friendNames = []
 	for x in range(1,numpages+1):
-		pg = ripPage(url + "members/R_FRIENDS.php?uid=" + str(userID) + "&page=" + str(x))
+		pg = ripPage(url + "members/friends.php?uid=" + str(userID) + "&page=" + str(x))
 		names = r.findall(pg)
 		for user in names:
 			if not user in friendNames:

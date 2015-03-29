@@ -11,7 +11,7 @@ NODE_SIZE = "friends"       #Factor to decide node size; Options are 'friends', 
 FILTER_BY = "friends"       #Factor to decide what users to filter; Options are 'friends', 'date', 'karma', 'all', 'none'
 MIN_YEAR = 0                #Earliest year a user can sign up by before being filtered by date, inclusive
 MAX_YEAR = 16               #Latest year a user can sign up by before being filtered by date, inclusive
-MIN_FRIENDS = 500           #Minimum number of friends a user can have when being filtered by friends, inclusive
+MIN_FRIENDS = 700           #Minimum number of friends a user can have when being filtered by friends, inclusive
 MAX_FRIENDS = None          #Maximum number of friends a user can have when being filtered by friends, inclusive
 MIN_KARMA = 45              #Minimum karma when filtering by karma, inclusive
 MAX_KARMA = 99              #Maximum karma when filtering by karma, inclusive
@@ -231,6 +231,6 @@ if __name__ == '__main__':
             if other in flist:
                 G.add_edge(other, key, color=getEdgeColor(other, key, G), weight=getWeight(other,key, CCList), arrow=True)
     del flist, key, keys, other
-    drawGraph(G) 
+    #drawGraph(G) 
     if GET_HIST:
         buildHistogram(G, skipped=1)
